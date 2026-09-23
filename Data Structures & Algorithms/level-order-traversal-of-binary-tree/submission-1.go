@@ -7,15 +7,29 @@
  * }
  */
 
-func lowestCommonAncestor(root *TreeNode, p *TreeNode, q *TreeNode) *TreeNode {
-    for root != nil {
-		if p.Val < root.Val && q.Val < root.Val {
-			root = root.Left
-		} else if p.Val > root.Val && q.Val > root.Val{
-			root = root.Right
-		} else {
-			break
-		}
+
+func levelOrder(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
 	}
-	return root
+    output := [][]int{}
+	queue := []*TreeNode{root}
+
+	for len(queue) > 0 {
+		n := len(queue)
+		level := []int{}
+		for i := 0; i < n ; i ++ {
+			a := queue[0]
+			queue = queue[1:]
+			level = append(level, a.Val)
+			if a.Left != nil {
+				queue = append(queue, a.Left)
+			}
+			if a.Right != nil {
+				queue = append(queue, a.Right)
+			}
+		}
+		output = append(output, level)
+	}
+	return output
 }
